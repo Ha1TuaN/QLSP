@@ -54,26 +54,32 @@ namespace WebQLSP.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InvoiceIn invoice)
         {
-            if (ModelState.IsValid)
+            var inv = db.InvoiceIns.SingleOrDefault(x => x.Inv_ID == invoice.Inv_ID);
+            if (inv == null)
             {
-                db.InvoiceIns.Add(invoice);
-
-                foreach (var detail in invoice.DetailInvoiceIns)
+                if (ModelState.IsValid)
                 {
-                    Product prod = db.Products.SingleOrDefault(p => p.Prod_ID == detail.Prod_ID);
-                    if (prod != null)
-                    {
-                        prod.Quantity += detail.Quantity;
-                    }
+                    db.InvoiceIns.Add(invoice);
 
+                    foreach (var detail in invoice.DetailInvoiceIns)
+                    {
+                        Product prod = db.Products.SingleOrDefault(p => p.Prod_ID == detail.Prod_ID);
+                        if (prod != null)
+                        {
+                            prod.Quantity += detail.Quantity;
+                        }
+
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.SaveChanges();
-                return RedirectToAction("Details");
+                else
+                {
+                    ModelState.AddModelError("", "Sản phẩm đã tồn tại trong bảng");
+                    return View();
+                }
             }
-            else
-            {
-                return View(invoice);
-            }
+            return View(invoice);
         }
 
         public ActionResult Edit(string id)

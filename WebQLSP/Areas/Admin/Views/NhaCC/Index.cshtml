@@ -7,13 +7,30 @@
 
 }
 
+
 <div class="content-header">
+    @using (Html.BeginForm())
+    {
+        <div class="d-flex justify-content-start align-items-center">
+            <div class="form-group form-inline flex-grow-1">
+                <input type="search" placeholder="Nhập tên mã nhà cung cấp cần tìm......." class="form-control w-50" name="SearchString" />
+                <input type="submit" class="btn btn-primary ml-1" value="Search" />
+            </div>
+            <p>
+                @Html.ActionLink("Create New", "Create", new { controller = "KhachHang", area = "Admin" })
+            </p>
+        </div>
 
+    }
+    @if (Model != null && Model.Any())
+    {
+
+    }
+    else
+    {
+        <p>No results found.</p>
+    }
 </div>
-
-<p>
-    @Html.ActionLink("Create New", "Create", new { controller = "NhaCC", area = "Admin" })
-</p>
 <table class="table">
     <tr>
         <th>

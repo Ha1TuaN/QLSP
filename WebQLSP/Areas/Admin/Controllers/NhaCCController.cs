@@ -16,12 +16,30 @@ namespace WebQLSP.Areas.Admin.Controllers
         private QLSPEntities db = new QLSPEntities();
 
         // GET: Suppliers
-        public ActionResult Index(int? page)
+        public ActionResult Index(string currentFilter, int? page, string SearchString = "")
         {
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            var list = db.Suppliers.Where(x => x.isDelete == false).ToList();
-            return View(list.ToPagedList(pageNumber, pageSize));
+
+            if (SearchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchString = currentFilter;
+            }
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                var list = db.Suppliers.Where(x => x.Sup_ID.ToUpper().Contains(SearchString.ToUpper())).ToList();
+                return View(list.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                var list = db.Suppliers.ToList();
+                return View(list.ToPagedList(pageNumber, pageSize));
+            }
         }
 
 
@@ -34,14 +52,23 @@ namespace WebQLSP.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Sup_ID,Sup_Name,Sup_Address,Sup_Phone,isDelete")] Supplier supplier)
         {
-            if (ModelState.IsValid)
+            var sup = db.Suppliers.SingleOrDefault(x => x.Sup_ID == supplier.Sup_ID);
+            if (sup == null)
             {
-                db.Suppliers.Add(supplier);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Suppliers.Add(supplier);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(supplier);
+                return View(supplier);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Nhà cung cấp đã tồn tại trong bảng");
+                return View();
+            }
         }
 
         // GET: Suppliers/Edit/5

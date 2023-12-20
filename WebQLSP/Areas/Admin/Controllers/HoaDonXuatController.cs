@@ -52,27 +52,36 @@ namespace WebQLSP.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(InvoiceOut invoice, string phone)
         {
-            var cus = db.Customers.SingleOrDefault(x => x.Cus_Phone == phone);
-            if (ModelState.IsValid)
+            var inv = db.InvoiceIns.SingleOrDefault(x => x.Inv_ID == invoice.Inv_ID);
+            if(inv == null)
             {
-                invoice.Cus_ID = cus.Cus_ID;
-                db.InvoiceOuts.Add(invoice);
-
-                foreach (var detail in invoice.DetailInvoiceOuts)
+                var cus = db.Customers.SingleOrDefault(x => x.Cus_Phone == phone);
+                if (ModelState.IsValid)
                 {
-                    Product prod = db.Products.SingleOrDefault(p => p.Prod_ID == detail.Prod_ID);
-                    if (prod != null)
+                    invoice.Cus_ID = cus.Cus_ID;
+                    db.InvoiceOuts.Add(invoice);
+
+                    foreach (var detail in invoice.DetailInvoiceOuts)
                     {
-                        prod.Quantity -= detail.Quantity;
+                        Product prod = db.Products.SingleOrDefault(p => p.Prod_ID == detail.Prod_ID);
+                        if (prod != null)
+                        {
+                            prod.Quantity -= detail.Quantity;
+                        }
                     }
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                else
+                {
+                    // Trả về view với các thông báo lỗi
+                    return View(invoice);
+                }
             }
             else
             {
-                // Trả về view với các thông báo lỗi
-                return View(invoice);
+                ModelState.AddModelError("", "Hóa đơn đã tồn tại trong bảng");
+                return View();
             }
         }
 

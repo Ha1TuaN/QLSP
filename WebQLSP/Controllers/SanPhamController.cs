@@ -53,22 +53,30 @@ namespace WebQLSP.Controllers
 
         public ActionResult Create(Product model, HttpPostedFileBase fileAnh)
         {
-
-            if (ModelState.IsValid)
+            var prod = db.Products.SingleOrDefault(x => x.Prod_ID == model.Prod_ID);
+            if(prod == null)
             {
-                if (fileAnh != null && fileAnh.ContentLength > 0)
+                if (ModelState.IsValid)
                 {
-                    // Handle file upload
-                    string rootFile = Server.MapPath("/Data/");
-                    string pathFile = rootFile + fileAnh.FileName;
-                    fileAnh.SaveAs(pathFile);
-                    model.UrlImg = "/Data/" + fileAnh.FileName;
-                }
-                db.Products.Add(model);
+                    if (fileAnh != null && fileAnh.ContentLength > 0)
+                    {
+                        // Handle file upload
+                        string rootFile = Server.MapPath("/Data/");
+                        string pathFile = rootFile + fileAnh.FileName;
+                        fileAnh.SaveAs(pathFile);
+                        model.UrlImg = "/Data/" + fileAnh.FileName;
+                    }
+                    db.Products.Add(model);
                     
-                db.SaveChanges();
+                    db.SaveChanges();
                     return RedirectToAction("Index");
 
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("","Sản phẩm đã tồn tại trong bảng");
+                return View();
             }
 
             // Nếu ModelState không hợp lệ, quay lại view "Create" để hiển thị lỗi
