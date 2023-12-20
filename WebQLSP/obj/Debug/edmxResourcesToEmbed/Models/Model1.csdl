@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLSPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Product__Brand_I__4F7CD00D" FromRole="Brand" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Cus_ID" />
+    </Key>
+    <Property Name="Cus_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cus_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cus_Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="InvoiceOuts" Relationship="Self.FK__InvoiceOu__Cus_I__5BE2A6F2" FromRole="Customer" ToRole="InvoiceOut" />
+  </EntityType>
+  <EntityType Name="DetailInvoiceIn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Inv_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Prod_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Inv_Total" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="InvoiceIn" Relationship="Self.FK__DetailInv__Inv_I__693CA210" FromRole="DetailInvoiceIn" ToRole="InvoiceIn" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__DetailInv__Prod___6A30C649" FromRole="DetailInvoiceIn" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="DetailInvoiceOut">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Inv_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Prod_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Inv_Total" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="InvoiceOut" Relationship="Self.FK__DetailInv__Inv_I__656C112C" FromRole="DetailInvoiceOut" ToRole="InvoiceOut" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__DetailInv__Prod___66603565" FromRole="DetailInvoiceOut" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Emp_ID" />
+    </Key>
+    <Property Name="Emp_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Emp_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Emp_Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Accounts" Relationship="QLSPModel.FK__Account__Emp_ID__6FE99F9F" FromRole="Employee" ToRole="Account" />
+    <Property Name="isDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="InvoiceIn">
+    <Key>
+      <PropertyRef Name="Inv_ID" />
+    </Key>
+    <Property Name="Inv_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Inv_DateIn" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Sup_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <Property Name="Emp_ID" Type="Int32" />
+    <NavigationProperty Name="DetailInvoiceIns" Relationship="Self.FK__DetailInv__Inv_I__693CA210" FromRole="InvoiceIn" ToRole="DetailInvoiceIn" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__InvoiceIn__Emp_I__628FA481" FromRole="InvoiceIn" ToRole="Employee" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK__InvoiceIn__Sup_I__619B8048" FromRole="InvoiceIn" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="InvoiceOut">
+    <Key>
+      <PropertyRef Name="Inv_ID" />
+    </Key>
+    <Property Name="Inv_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Inv_DateOut" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Cus_ID" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <Property Name="Emp_ID" Type="Int32" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK__InvoiceOu__Cus_I__5BE2A6F2" FromRole="InvoiceOut" ToRole="Customer" />
+    <NavigationProperty Name="DetailInvoiceOuts" Relationship="Self.FK__DetailInv__Inv_I__656C112C" FromRole="InvoiceOut" ToRole="DetailInvoiceOut" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__InvoiceOu__Emp_I__5CD6CB2B" FromRole="InvoiceOut" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Prod_ID" />
+    </Key>
+    <Property Name="Prod_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Prod_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Prod_Price_Out" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Prod_Price_In" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="UrlImg" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Catalog_ID" Type="Int32" Nullable="false" />
+    <Property Name="Brand_ID" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Brand" Relationship="Self.FK__Product__Brand_I__4F7CD00D" FromRole="Product" ToRole="Brand" />
+    <NavigationProperty Name="DetailInvoiceIns" Relationship="Self.FK__DetailInv__Prod___6A30C649" FromRole="Product" ToRole="DetailInvoiceIn" />
+    <NavigationProperty Name="DetailInvoiceOuts" Relationship="Self.FK__DetailInv__Prod___66603565" FromRole="Product" ToRole="DetailInvoiceOut" />
+    <NavigationProperty Name="ProductCatalog" Relationship="Self.FK__Product__Catalog__4E88ABD4" FromRole="Product" ToRole="ProductCatalog" />
+  </EntityType>
+  <EntityType Name="ProductCatalog">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Product__Catalog__4E88ABD4" FromRole="ProductCatalog" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Sup_ID" />
+    </Key>
+    <Property Name="Sup_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Sup_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Sup_Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Sup_Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="InvoiceIns" Relationship="Self.FK__InvoiceIn__Sup_I__619B8048" FromRole="Supplier" ToRole="InvoiceIn" />
+  </EntityType>
+  <Association Name="FK__Product__Brand_I__4F7CD00D">
+    <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Brand_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__InvoiceOu__Cus_I__5BE2A6F2">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="InvoiceOut" Type="Self.InvoiceOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Cus_ID" />
+      </Principal>
+      <Dependent Role="InvoiceOut">
+        <PropertyRef Name="Cus_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetailInv__Inv_I__693CA210">
+    <End Role="InvoiceIn" Type="Self.InvoiceIn" Multiplicity="1" />
+    <End Role="DetailInvoiceIn" Type="Self.DetailInvoiceIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvoiceIn">
+        <PropertyRef Name="Inv_ID" />
+      </Principal>
+      <Dependent Role="DetailInvoiceIn">
+        <PropertyRef Name="Inv_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetailInv__Prod___6A30C649">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="DetailInvoiceIn" Type="Self.DetailInvoiceIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Prod_ID" />
+      </Principal>
+      <Dependent Role="DetailInvoiceIn">
+        <PropertyRef Name="Prod_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetailInv__Inv_I__656C112C">
+    <End Role="InvoiceOut" Type="Self.InvoiceOut" Multiplicity="1" />
+    <End Role="DetailInvoiceOut" Type="Self.DetailInvoiceOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvoiceOut">
+        <PropertyRef Name="Inv_ID" />
+      </Principal>
+      <Dependent Role="DetailInvoiceOut">
+        <PropertyRef Name="Inv_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetailInv__Prod___66603565">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="DetailInvoiceOut" Type="Self.DetailInvoiceOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Prod_ID" />
+      </Principal>
+      <Dependent Role="DetailInvoiceOut">
+        <PropertyRef Name="Prod_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__InvoiceIn__Emp_I__628FA481">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="InvoiceIn" Type="Self.InvoiceIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Emp_ID" />
+      </Principal>
+      <Dependent Role="InvoiceIn">
+        <PropertyRef Name="Emp_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__InvoiceOu__Emp_I__5CD6CB2B">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="InvoiceOut" Type="Self.InvoiceOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Emp_ID" />
+      </Principal>
+      <Dependent Role="InvoiceOut">
+        <PropertyRef Name="Emp_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__InvoiceIn__Sup_I__619B8048">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="InvoiceIn" Type="Self.InvoiceIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Sup_ID" />
+      </Principal>
+      <Dependent Role="InvoiceIn">
+        <PropertyRef Name="Sup_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Product__Catalog__4E88ABD4">
+    <End Role="ProductCatalog" Type="Self.ProductCatalog" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCatalog">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Catalog_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QLSPEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Brands" EntityType="Self.Brand" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="DetailInvoiceIns" EntityType="Self.DetailInvoiceIn" />
+    <EntitySet Name="DetailInvoiceOuts" EntityType="Self.DetailInvoiceOut" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="InvoiceIns" EntityType="Self.InvoiceIn" />
+    <EntitySet Name="InvoiceOuts" EntityType="Self.InvoiceOut" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductCatalogs" EntityType="Self.ProductCatalog" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <AssociationSet Name="FK__Product__Brand_I__4F7CD00D" Association="Self.FK__Product__Brand_I__4F7CD00D">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__InvoiceOu__Cus_I__5BE2A6F2" Association="Self.FK__InvoiceOu__Cus_I__5BE2A6F2">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="InvoiceOut" EntitySet="InvoiceOuts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetailInv__Inv_I__693CA210" Association="Self.FK__DetailInv__Inv_I__693CA210">
+      <End Role="InvoiceIn" EntitySet="InvoiceIns" />
+      <End Role="DetailInvoiceIn" EntitySet="DetailInvoiceIns" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetailInv__Prod___6A30C649" Association="Self.FK__DetailInv__Prod___6A30C649">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="DetailInvoiceIn" EntitySet="DetailInvoiceIns" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetailInv__Inv_I__656C112C" Association="Self.FK__DetailInv__Inv_I__656C112C">
+      <End Role="InvoiceOut" EntitySet="InvoiceOuts" />
+      <End Role="DetailInvoiceOut" EntitySet="DetailInvoiceOuts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetailInv__Prod___66603565" Association="Self.FK__DetailInv__Prod___66603565">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="DetailInvoiceOut" EntitySet="DetailInvoiceOuts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__InvoiceIn__Emp_I__628FA481" Association="Self.FK__InvoiceIn__Emp_I__628FA481">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="InvoiceIn" EntitySet="InvoiceIns" />
+    </AssociationSet>
+    <AssociationSet Name="FK__InvoiceOu__Emp_I__5CD6CB2B" Association="Self.FK__InvoiceOu__Emp_I__5CD6CB2B">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="InvoiceOut" EntitySet="InvoiceOuts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__InvoiceIn__Sup_I__619B8048" Association="Self.FK__InvoiceIn__Sup_I__619B8048">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="InvoiceIn" EntitySet="InvoiceIns" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Product__Catalog__4E88ABD4" Association="Self.FK__Product__Catalog__4E88ABD4">
+      <End Role="ProductCatalog" EntitySet="ProductCatalogs" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="Accounts" EntityType="QLSPModel.Account" />
+    <AssociationSet Name="FK__Account__Emp_ID__6FE99F9F" Association="QLSPModel.FK__Account__Emp_ID__6FE99F9F">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="pass" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Emp_ID" Type="Int32" />
+    <NavigationProperty Name="Employee" Relationship="QLSPModel.FK__Account__Emp_ID__6FE99F9F" FromRole="Account" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK__Account__Emp_ID__6FE99F9F">
+    <End Type="QLSPModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="QLSPModel.Account" Role="Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Emp_ID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="Emp_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

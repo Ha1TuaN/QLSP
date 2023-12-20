@@ -1,0 +1,52 @@
+﻿@model PagedList.PagedList<WebQLSP.Models.Brand>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header">
+
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { controller = "HangSX", area = "Admin" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Mã hãng
+        </th>
+        <th>
+            Tên
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ID
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID , controller = "HangSX", area = "Admin" })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(
+    Model,
+    page => Url.Action("Index", new { page }),
+    new PagedListRenderOptions
+    {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = false,
+        MaximumPageNumbersToDisplay = 10,
+        LiElementClasses = new string[] { "page-item" },
+    }
+)

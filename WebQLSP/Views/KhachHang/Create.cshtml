@@ -1,0 +1,58 @@
+﻿@model WebQLSP.Models.Customer
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-header">
+   
+</div>
+
+@using (Html.BeginForm("Create","KhachHang", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class=""control-label col-md-2"">Tên khách hàng <span style="color: red">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Cus_Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Cus_Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class=""control-label col-md-2"">Số điện thoại <span style="color: red">*</span></label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Cus_Phone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Cus_Phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-10">
+            <div class="checkbox">
+                <input type="hidden" name="isDelete" value="false" />
+
+                @Html.ValidationMessageFor(model => model.isDelete, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

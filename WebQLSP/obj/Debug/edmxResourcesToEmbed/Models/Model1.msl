@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QLSPModelStoreContainer" CdmEntityContainer="QLSPEntities">
+    <EntitySetMapping Name="Brands">
+      <EntityTypeMapping TypeName="QLSPModel.Brand">
+        <MappingFragment StoreEntitySet="Brand">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="QLSPModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="Cus_ID" ColumnName="Cus_ID" />
+          <ScalarProperty Name="Cus_Name" ColumnName="Cus_Name" />
+          <ScalarProperty Name="Cus_Phone" ColumnName="Cus_Phone" />
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetailInvoiceIns">
+      <EntityTypeMapping TypeName="QLSPModel.DetailInvoiceIn">
+        <MappingFragment StoreEntitySet="DetailInvoiceIn">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Inv_ID" ColumnName="Inv_ID" />
+          <ScalarProperty Name="Prod_ID" ColumnName="Prod_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Inv_Total" ColumnName="Inv_Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetailInvoiceOuts">
+      <EntityTypeMapping TypeName="QLSPModel.DetailInvoiceOut">
+        <MappingFragment StoreEntitySet="DetailInvoiceOut">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Inv_ID" ColumnName="Inv_ID" />
+          <ScalarProperty Name="Prod_ID" ColumnName="Prod_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Inv_Total" ColumnName="Inv_Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="QLSPModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+          <ScalarProperty Name="Emp_Name" ColumnName="Emp_Name" />
+          <ScalarProperty Name="Emp_Phone" ColumnName="Emp_Phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceIns">
+      <EntityTypeMapping TypeName="QLSPModel.InvoiceIn">
+        <MappingFragment StoreEntitySet="InvoiceIn">
+          <ScalarProperty Name="Inv_ID" ColumnName="Inv_ID" />
+          <ScalarProperty Name="Inv_DateIn" ColumnName="Inv_DateIn" />
+          <ScalarProperty Name="Sup_ID" ColumnName="Sup_ID" />
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceOuts">
+      <EntityTypeMapping TypeName="QLSPModel.InvoiceOut">
+        <MappingFragment StoreEntitySet="InvoiceOut">
+          <ScalarProperty Name="Inv_ID" ColumnName="Inv_ID" />
+          <ScalarProperty Name="Inv_DateOut" ColumnName="Inv_DateOut" />
+          <ScalarProperty Name="Cus_ID" ColumnName="Cus_ID" />
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="QLSPModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Prod_ID" ColumnName="Prod_ID" />
+          <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
+          <ScalarProperty Name="Prod_Price_Out" ColumnName="Prod_Price_Out" />
+          <ScalarProperty Name="Prod_Price_In" ColumnName="Prod_Price_In" />
+          <ScalarProperty Name="UrlImg" ColumnName="UrlImg" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Catalog_ID" ColumnName="Catalog_ID" />
+          <ScalarProperty Name="Brand_ID" ColumnName="Brand_ID" />
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductCatalogs">
+      <EntityTypeMapping TypeName="QLSPModel.ProductCatalog">
+        <MappingFragment StoreEntitySet="ProductCatalog">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="QLSPModel.Supplier">
+        <MappingFragment StoreEntitySet="Supplier">
+          <ScalarProperty Name="Sup_ID" ColumnName="Sup_ID" />
+          <ScalarProperty Name="Sup_Name" ColumnName="Sup_Name" />
+          <ScalarProperty Name="Sup_Address" ColumnName="Sup_Address" />
+          <ScalarProperty Name="Sup_Phone" ColumnName="Sup_Phone" />
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="QLSPModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+          <ScalarProperty Name="username" ColumnName="username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

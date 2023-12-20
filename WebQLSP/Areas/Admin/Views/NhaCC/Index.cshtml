@@ -1,0 +1,132 @@
+﻿@using PagedList.Mvc;
+@model PagedList.PagedList<WebQLSP.Models.Supplier>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="content-header">
+
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { controller = "NhaCC", area = "Admin" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Mã nhà cung cấp
+        </th>
+        <th>
+            Tên nhà cung cấp
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Sup_ID
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sup_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sup_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sup_Phone)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Sup_ID, controller = "NhaCC", area = "Admin" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Sup_ID, controller = "NhaCC", area = "Admin" }) |
+                <a href="/" data-toggle="modal" data-target="#exampleModal" onclick="confirmDelete('@item.Sup_ID')">Delete</a>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn xóa nhà cung cấp này không</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnDel" id="btnDel">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+
+@Html.PagedListPager(
+    Model,
+    page => Url.Action("Index", new { page }),
+    new PagedListRenderOptions
+    {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = false,
+        MaximumPageNumbersToDisplay = 10,
+        LiElementClasses = new string[] { "page-item" },
+    }
+)
+
+
+@section script{
+    <script>
+        function confirmDelete(id) {
+            $("#btnDel").click(function () {
+                handleDelete(id)
+            })
+        }
+
+        function handleDelete(id) {
+            var formData = new FormData();
+            formData.append("id", id);
+
+            $.ajax({
+                type: "POST",
+                data: formData,
+                url: window.location.origin + '/admin/NhaCC/Delete',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    toastr.success(response)
+                    setTimeout(function () {
+                        window.location.href = '/admin/NhaCC/Index'
+                    }, 300)
+                },
+                error: function (response) {
+                    toastr.error(response)
+                }
+            });
+
+        }
+
+
+    </script>
+
+}
